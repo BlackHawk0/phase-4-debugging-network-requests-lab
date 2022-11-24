@@ -63,11 +63,18 @@ developing your own process.
 - Add a new toy when the toy form is submitted
 
   - How I debugged:
+  Tried to add a new toy to crosscheck if the functionaly works. I got a NameError (uninitialized constant ToysController::Toys):
+  Added a byebug at the top the create method to check if the data is sent correctly. I discovered the data was sent to the API.
+  Checking through the code i found out that theres was a typo on the class call to create a new toy. Toys.create instead of Toy.create.
 
 - Update the number of likes for a toy
 
   - How I debugged:
+  As always i tested the feature and got a Unhandled Rejection (SyntaxError): Unexpected end of JSON input. This means that the frontend
+  expects a JSON formatted data but thats no the kind of data is receiving. checking through the code i discovered that on update,
+  the data was not formatted in JSON format so i added a render json.
 
 - Donate a toy to Goodwill (and delete it from our database)
 
   - How I debugged:
+  I started by testing the feature and it was working fine. However i added some error handling methods.

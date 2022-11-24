@@ -7,19 +7,28 @@ class ToysController < ApplicationController
   end
 
   def create
-    toy = Toys.create(toy_params)
+    toy = Toy.create!(toy_params)
     render json: toy, status: :created
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: {errors: invalid.record.errors.full_messages}, status: :unprocessable_entity
   end
 
   def update
     toy = Toy.find_by(id: params[:id])
     toy.update(toy_params)
+    render json: toy, status: :accepted
+  rescue ActiveRecord::RecordNotFound
+    render json: {errors: "Toy not found"}, status: :not_found
   end
 
   def destroy
     toy = Toy.find_by(id: params[:id])
-    toy.destroy
-    head :no_content
+    if toy
+      toy.destroy
+      head :no_content
+    else
+      render json: toy.errors.full_messages, status: :not_found
+    end
   end
 
   private
@@ -29,3 +38,5 @@ class ToysController < ApplicationController
   end
 
 end
+
+
